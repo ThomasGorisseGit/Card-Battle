@@ -1,6 +1,9 @@
-package main.java.fr.gorisse.battleGame;
+package main.java.fr.gorisse.battleGame.model;
 
-public enum Cards {
+import java.util.Random;
+
+public enum Card {
+    JOKER(new Random().nextInt(5,14)),
     KING (13),
     QUEEN(12),
     JACK(11),
@@ -15,11 +18,15 @@ public enum Cards {
     TWO(2),
     ONE(1);
     private final int score;
-    Cards(int score) {
+    Card(int score) {
         this.score = score;
     }
     public int getScore() {
         return score;
     }
 
+    @Override
+    public String toString() {
+        return super.toString()+"("+ this.score+")";
+    }
 }
