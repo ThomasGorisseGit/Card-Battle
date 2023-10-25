@@ -2,6 +2,7 @@ package main.java.fr.gorisse.battleGame.controller;
 
 import main.java.fr.gorisse.battleGame.model.Card;
 import main.java.fr.gorisse.battleGame.model.CardList;
+import main.java.fr.gorisse.battleGame.model.Playable;
 import main.java.fr.gorisse.battleGame.model.Player;
 import main.java.fr.gorisse.battleGame.view.IView;
 import main.java.fr.gorisse.battleGame.view.ShellView;
@@ -18,10 +19,10 @@ public class GameController {
     }
     private GameState gameState = GameState.InitGameValues;
     private ArrayList<Card> listOfCards;
-    private Player player1;
-    private Player player2;
+    private Playable player1;
+    private Playable player2;
     private IView view;
-    private Player playerToPlay;
+    private Playable playerToPlay;
 
     public GameController(){
         this.listOfCards = CardList.getInstance();
@@ -44,16 +45,35 @@ public class GameController {
             }
             case GameStart -> {
                 this.setPlayerToPlay();
-                this.view.displayPlayerToPlay(this.playerToPlay.getName());
-                this.view.displayPlayerCards(this.playerToPlay.getDeck());
-                int cardIndex = this.view.getPlayerCardToPlay();
-                this.playerToPlay.getCard(cardIndex);
+
+                Card c1 = this.playerPlays();
+                this.setPlayerToPlay(); // Changing the player order
+                //TODO : Between each round, set the playerToPlay at the winner of the last round
+                Card c2 = this.playerPlays();
+
+                this.view.displayDuel(c1,c2);
+
+
 
             }
 
 
         }
 
+    }
+    private int evaluateWinner(Card c1, Card c2){
+
+        if(c1.getScore()>c2.getScore()) return c1.getScore()-c2.getScore();
+        return c2.getScore()-c1.getScore();
+    }
+    private Card playerPlays(){
+        this.view.displayPlayerToPlay(this.playerToPlay.getName());
+        this.view.displayPlayerCards(this.playerToPlay.getDeck());
+        int cardIndex = this.view.getPlayerCardToPlay();
+        Card card = this.playerToPlay.getCard(cardIndex);
+        this.view.displayACard(card,this.playerToPlay.getName());
+        this.playerToPlay.removeFromDeck(card);
+        return card;
     }
 
     private void setPlayerToPlay(){

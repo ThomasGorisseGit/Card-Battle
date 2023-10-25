@@ -54,4 +54,14 @@ public class ShellView implements IView {
         System.out.println("Choose a Card by writing the index of the card !");
         System.out.println(cards);
     }
+
+    @Override
+    public void displayACard(Card c, String playerName) {
+
+    }
+
+    @Override
+    public void displayDuel(Card c1, Card c2) {
+
+    }
 }
