@@ -24,6 +24,12 @@ public class Player implements Playable{
     }
 
     public int getScore(){return this.score;}
+
+    @Override
+    public void resetScore() {
+        this.score= 0;
+    }
+
     public void addToDeck(Card c){
         this.deck.add(c);
     }
@@ -35,6 +41,7 @@ public class Player implements Playable{
     public void increaseScore() {
         this.score++;
     }
+
 
     public ArrayList<Card> getDeck(){
         return this.deck;

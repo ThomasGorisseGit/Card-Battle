@@ -8,6 +8,7 @@ public interface Playable {
     void removeFromDeck(Card c);
     void increaseScore();
     int getScore();
+    void resetScore();
     ArrayList<Card> getDeck();
     String getName();
     Card getCard(int index);

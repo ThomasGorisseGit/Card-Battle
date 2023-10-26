@@ -12,12 +12,12 @@ import java.util.Collections;
 import java.util.Random;
 
 public class GameController {
-    enum GameState{
+    public enum GameState{
         InitGameValues,
         GameStart,
         EndGame
     }
-    private GameState gameState = GameState.InitGameValues;
+    public GameState gameState = GameState.InitGameValues;
     private ArrayList<Card> listOfCards;
     private Playable player1;
     private Playable player2;
@@ -28,7 +28,7 @@ public class GameController {
         this.listOfCards = CardList.getInstance();
         this.player1 = new Player("");
         this.player2 = new Player("");
-        this.view = new ShellView();
+        this.view = new ShellView(this);
         this.startGame();
     }
 
@@ -36,7 +36,6 @@ public class GameController {
 
     private void startGame(){
         while(true){
-
             switch (this.gameState){
                 case InitGameValues -> {
                     this.view.displayGreetings(); // Display Game start
@@ -46,25 +45,32 @@ public class GameController {
                     this.gameState = GameState.GameStart;
                 }
                 case GameStart -> {
+                    this.setDecks();
+                    this.player1.resetScore();
+                    this.player2.resetScore();
                     while(!this.player1.getDeck().isEmpty() && !this.player2.getDeck().isEmpty())
                     {
                         this.setPlayerToPlay();
-                        Playable winner = this.playerToPlay;
+                        Playable roundWinner = this.playerToPlay;
                         Card c1 = this.playerPlays();
                         this.switchPlayers(); // Changing the player order
                         //TODO : Between each round, set the playerToPlay at the winner of the last round
                         Card c2 = this.playerPlays();
                         this.view.displayDuel(c1,c2);
-                        if(this.evaluateWinner(c1,c2) == c2) winner = this.playerToPlay;
-                        this.view.displayWinner(winner.getName());
-                        winner.increaseScore();
+                        if(this.evaluateWinner(c1,c2) == c2) roundWinner = this.playerToPlay;
+                        this.view.displayRoundWinner(roundWinner.getName());
+                        roundWinner.increaseScore();
                         this.view.displayScores(this.player1.getName(),this.player1.getScore(),this.player2.getName(),this.player2.getScore());
                     }
 
                     this.gameState = GameState.EndGame;
                 }
                 case EndGame -> {
-                    this.view.displayEndGame();
+                    Playable gameWinner;
+                    if(this.player1.getScore()>this.player2.getScore())
+                        gameWinner= this.player1;
+                    else gameWinner = this.player2;
+                    this.view.displayEndGame(gameWinner.getName());
                     this.view.handleNewGame();
                 }
 
@@ -112,6 +118,10 @@ public class GameController {
 
         System.out.println("Player 1 : "+this.player1.getDeck() +"()");
         System.out.println("Player 2 : "+this.player2.getDeck());
+    }
+
+    public static void main(String[] args) {
+        GameController gameController = new GameController();
     }
 
 
