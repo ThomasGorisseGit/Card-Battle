@@ -14,7 +14,7 @@ public class ShellView implements IView {
         this.input = new Scanner(System.in);
     }
     @Override
-    public void displaySomething() {
+    public void displayNextState() {
         System.out.println("display something");
     }
 
@@ -62,6 +62,21 @@ public class ShellView implements IView {
 
     @Override
     public void displayDuel(Card c1, Card c2) {
+
+    }
+
+    @Override
+    public void displayWinner(String winnerName) {
+
+    }
+
+    @Override
+    public void displayEndGame() {
+
+    }
+
+    @Override
+    public void handleNewGame() {
 
     }
 }

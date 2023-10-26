@@ -35,36 +35,40 @@ public class GameController {
 
 
     private void startGame(){
+        while(true){
 
-        switch (this.gameState){
-            case InitGameValues -> {
-                this.view.displayGreetings(); // Display Game start
-                this.player1.setName(this.view.getPlayerNames("player1"));
-                this.player2.setName(this.view.getPlayerNames("player2"));
-                this.view.displaySomething(); // Display next state
+            switch (this.gameState){
+                case InitGameValues -> {
+                    this.view.displayGreetings(); // Display Game start
+                    this.player1.setName(this.view.getPlayerNames("player1"));
+                    this.player2.setName(this.view.getPlayerNames("player2"));
+                    this.view.displayNextState(); // Display next state
+                }
+                case GameStart -> {
+                    this.setPlayerToPlay();
+                    Playable winner = this.playerToPlay;
+                    Card c1 = this.playerPlays();
+                    this.setPlayerToPlay(); // Changing the player order
+                    //TODO : Between each round, set the playerToPlay at the winner of the last round
+                    Card c2 = this.playerPlays();
+                    this.view.displayDuel(c1,c2);
+                    if(this.evaluateWinner(c1,c2) == c2) winner = this.playerToPlay;
+                    this.view.displayWinner(winner.getName());
+                }
+                case EndGame -> {
+                    this.view.displayEndGame();
+                    this.view.handleNewGame();
+                }
+
             }
-            case GameStart -> {
-                this.setPlayerToPlay();
-
-                Card c1 = this.playerPlays();
-                this.setPlayerToPlay(); // Changing the player order
-                //TODO : Between each round, set the playerToPlay at the winner of the last round
-                Card c2 = this.playerPlays();
-
-                this.view.displayDuel(c1,c2);
-
-
-
-            }
-
-
         }
 
-    }
-    private int evaluateWinner(Card c1, Card c2){
 
-        if(c1.getScore()>c2.getScore()) return c1.getScore()-c2.getScore();
-        return c2.getScore()-c1.getScore();
+    }
+    private Card evaluateWinner(Card c1, Card c2){
+
+        if(c1.getScore()>c2.getScore()) return c1;
+        return c2;
     }
     private Card playerPlays(){
         this.view.displayPlayerToPlay(this.playerToPlay.getName());
