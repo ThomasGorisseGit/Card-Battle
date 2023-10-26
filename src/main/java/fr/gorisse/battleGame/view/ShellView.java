@@ -79,4 +79,9 @@ public class ShellView implements IView {
     public void handleNewGame() {
 
     }
+
+    @Override
+    public void displayScores(String player1Name, int player1Score, String player2Name, int player2Score) {
+
+    }
 }

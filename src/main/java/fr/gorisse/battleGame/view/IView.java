@@ -16,6 +16,7 @@ public interface IView {
     void displayWinner(String winnerName);
     void displayEndGame();
     void handleNewGame();
+    void displayScores(String player1Name, int player1Score, String player2Name, int player2Score);
     String getPlayerNames(String playerName);
     int getPlayerCardToPlay();
 

@@ -43,17 +43,25 @@ public class GameController {
                     this.player1.setName(this.view.getPlayerNames("player1"));
                     this.player2.setName(this.view.getPlayerNames("player2"));
                     this.view.displayNextState(); // Display next state
+                    this.gameState = GameState.GameStart;
                 }
                 case GameStart -> {
-                    this.setPlayerToPlay();
-                    Playable winner = this.playerToPlay;
-                    Card c1 = this.playerPlays();
-                    this.setPlayerToPlay(); // Changing the player order
-                    //TODO : Between each round, set the playerToPlay at the winner of the last round
-                    Card c2 = this.playerPlays();
-                    this.view.displayDuel(c1,c2);
-                    if(this.evaluateWinner(c1,c2) == c2) winner = this.playerToPlay;
-                    this.view.displayWinner(winner.getName());
+                    while(!this.player1.getDeck().isEmpty() && !this.player2.getDeck().isEmpty())
+                    {
+                        this.setPlayerToPlay();
+                        Playable winner = this.playerToPlay;
+                        Card c1 = this.playerPlays();
+                        this.switchPlayers(); // Changing the player order
+                        //TODO : Between each round, set the playerToPlay at the winner of the last round
+                        Card c2 = this.playerPlays();
+                        this.view.displayDuel(c1,c2);
+                        if(this.evaluateWinner(c1,c2) == c2) winner = this.playerToPlay;
+                        this.view.displayWinner(winner.getName());
+                        winner.increaseScore();
+                        this.view.displayScores(this.player1.getName(),this.player1.getScore(),this.player2.getName(),this.player2.getScore());
+                    }
+
+                    this.gameState = GameState.EndGame;
                 }
                 case EndGame -> {
                     this.view.displayEndGame();
@@ -80,16 +88,18 @@ public class GameController {
         return card;
     }
 
+    private void switchPlayers(){
+        if(playerToPlay == player1) playerToPlay = player2;
+        else playerToPlay = player1;
+    }
     private void setPlayerToPlay(){
         // if there is no player to play than init randomly one, else switch the player
-        if(playerToPlay == null){
-            if(new Random().nextInt(0,1 )== 0 ) playerToPlay = player1;
-            else playerToPlay = player2;
-        }
-        else{
-            if(playerToPlay == player1) playerToPlay = player2;
-            else playerToPlay = player1;
-        }
+
+        if(new Random().nextInt(0,1 )== 0 ) playerToPlay = player1;
+        else playerToPlay = player2;
+
+
+
     }
     private void setDecks(){
         Collections.shuffle(this.listOfCards);
