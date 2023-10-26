@@ -19,7 +19,7 @@ public class Player implements Playable{
     {
         return this.name;
     }
-    public Card getCard(int index){
+    public Card getCard(int index) {
         return this.deck.get(index);
     }
 

@@ -54,7 +54,6 @@ public class GameController {
                         Playable roundWinner = this.playerToPlay;
                         Card c1 = this.playerPlays();
                         this.switchPlayers(); // Changing the player order
-                        //TODO : Between each round, set the playerToPlay at the winner of the last round
                         Card c2 = this.playerPlays();
                         this.view.displayDuel(c1,c2);
                         if(this.evaluateWinner(c1,c2) == c2) roundWinner = this.playerToPlay;
@@ -71,6 +70,8 @@ public class GameController {
                         gameWinner= this.player1;
                     else gameWinner = this.player2;
                     this.view.displayEndGame(gameWinner.getName());
+                    this.view.displayScores(this.player1.getName(),this.player1.getScore(),this.player2.getName(),this.player2.getScore());
+
                     this.view.handleNewGame();
                 }
 
@@ -88,6 +89,10 @@ public class GameController {
         this.view.displayPlayerToPlay(this.playerToPlay.getName());
         this.view.displayPlayerCards(this.playerToPlay.getDeck());
         int cardIndex = this.view.getPlayerCardToPlay();
+        while(cardIndex>= this.playerToPlay.getDeck().size()){
+            this.view.displayOutOfRange();
+            cardIndex = this.view.getPlayerCardToPlay();
+        }
         Card card = this.playerToPlay.getCard(cardIndex);
         this.view.displayACard(card,this.playerToPlay.getName());
         this.playerToPlay.removeFromDeck(card);
@@ -99,9 +104,8 @@ public class GameController {
         else playerToPlay = player1;
     }
     private void setPlayerToPlay(){
-        // if there is no player to play than init randomly one, else switch the player
-
-        if(new Random().nextInt(0,1 )== 0 ) playerToPlay = player1;
+        int random = new Random().nextInt(0,2);
+        if( random == 0) playerToPlay = player1;
         else playerToPlay = player2;
 
 
@@ -120,9 +124,7 @@ public class GameController {
         System.out.println("Player 2 : "+this.player2.getDeck());
     }
 
-    public static void main(String[] args) {
-        GameController gameController = new GameController();
-    }
+
 
 
 }

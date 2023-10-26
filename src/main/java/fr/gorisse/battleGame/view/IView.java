@@ -14,6 +14,7 @@ public interface IView {
     void displayDuel(Card c1, Card c2);
     void displayRoundWinner(String winnerName);
     void displayEndGame(String gameWinner);
+    void displayOutOfRange();
     void handleNewGame();
     void displayScores(String player1Name, int player1Score, String player2Name, int player2Score);
     String getPlayerNames(String playerName);

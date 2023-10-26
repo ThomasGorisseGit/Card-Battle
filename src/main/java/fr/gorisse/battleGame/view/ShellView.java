@@ -36,7 +36,8 @@ public class ShellView implements IView {
 
     @Override
     public void displayPlayerToPlay(String playerName) {
-        System.out.println("------IT'S"+playerName+" TO PLAY-------");
+        System.out.println("\n");
+        System.out.println("------IT'S "+playerName+"'s TURN TO PLAY-------");
     }
 
     @Override
@@ -58,7 +59,7 @@ public class ShellView implements IView {
 
     @Override
     public void displayACard(Card c, String playerName) {
-        System.out.println(playerName+ " played the card "+ c.getScore());
+        System.out.println(playerName+ " played the card "+ c.getScore()+"\n\n");
     }
 
     @Override
@@ -80,11 +81,20 @@ public class ShellView implements IView {
     }
 
     @Override
+    public void displayOutOfRange() {
+        System.out.println("Your card index is out of range !");
+    }
+
+    @Override
     public void handleNewGame() {
-        if(Objects.equals(this.input.nextLine(), "q") || Objects.equals(this.input.nextLine(), "Q")) {
+        System.out.println("To restart the game, press R");
+        System.out.println("To quit the game, press Q");
+        System.out.println("To start a new game, press P");
+        String input = this.input.nextLine();
+        if(Objects.equals(input, "q") || Objects.equals(input, "Q")) {
             System.exit(1);
         }
-        else if(Objects.equals(this.input.nextLine(), "r") || Objects.equals(this.input.nextLine(), "R")){
+        else if(Objects.equals(input, "r") || Objects.equals(input, "R")){
             this.controller.gameState = GameController.GameState.GameStart;
         }
         else {
