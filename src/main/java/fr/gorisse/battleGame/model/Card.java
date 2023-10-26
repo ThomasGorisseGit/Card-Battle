@@ -25,9 +25,7 @@ public enum Card {
         return score;
     }
 
-    public boolean equals(Card c){
-        return this.getScore()== c.getScore();
-    }
+
 
     @Override
     public String toString() {

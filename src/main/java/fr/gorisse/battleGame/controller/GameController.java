@@ -18,10 +18,11 @@ public class GameController {
         EndGame
     }
     public GameState gameState = GameState.InitGameValues;
-    private ArrayList<Card> listOfCards;
-    private Playable player1;
-    private Playable player2;
-    private IView view;
+    public boolean gameRun;
+    private final ArrayList<Card> listOfCards;
+    private final Playable player1;
+    private final Playable player2;
+    private final IView view;
     private Playable playerToPlay;
 
     public GameController(){
@@ -29,13 +30,15 @@ public class GameController {
         this.player1 = new Player("");
         this.player2 = new Player("");
         this.view = new ShellView(this);
+        this.gameRun = true;
         this.startGame();
     }
 
 
 
     private void startGame(){
-        while(true){
+
+        while(gameRun){
             switch (this.gameState){
                 case InitGameValues -> {
                     this.view.displayGreetings(); // Display Game start
@@ -71,7 +74,6 @@ public class GameController {
                     else gameWinner = this.player2;
                     this.view.displayEndGame(gameWinner.getName());
                     this.view.displayScores(this.player1.getName(),this.player1.getScore(),this.player2.getName(),this.player2.getScore());
-
                     this.view.handleNewGame();
                 }
 
@@ -124,7 +126,8 @@ public class GameController {
         System.out.println("Player 2 : "+this.player2.getDeck());
     }
 
-
-
-
+    @Override
+    public String toString() {
+        return "+--=--+ Card Battle +--=--+";
+    }
 }

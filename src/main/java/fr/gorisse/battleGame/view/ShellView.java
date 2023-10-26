@@ -8,8 +8,8 @@ import java.util.Objects;
 import java.util.Scanner;
 
 public class ShellView implements IView {
-    private GameController controller;
-    private Scanner input;
+    private final GameController controller;
+    private final Scanner input;
     public ShellView(GameController controller){
         this.controller = controller;
         this.input = new Scanner(System.in);
@@ -19,12 +19,7 @@ public class ShellView implements IView {
         System.out.println("-------THE GAME IS ABOUT TO START-------");
     }
 
-    @Override
-    public void displayStartGame() {
-        System.out.println("----------------------------------");
-        System.out.println("------------GAME START------------");
-        System.out.println("----------------------------------");
-    }
+
 
     @Override
     public void displayGreetings() {
@@ -92,7 +87,7 @@ public class ShellView implements IView {
         System.out.println("To start a new game, press P");
         String input = this.input.nextLine();
         if(Objects.equals(input, "q") || Objects.equals(input, "Q")) {
-            System.exit(1);
+            this.controller.gameRun = false;
         }
         else if(Objects.equals(input, "r") || Objects.equals(input, "R")){
             this.controller.gameState = GameController.GameState.GameStart;

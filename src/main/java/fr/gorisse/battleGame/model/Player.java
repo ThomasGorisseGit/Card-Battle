@@ -3,7 +3,7 @@ package main.java.fr.gorisse.battleGame.model;
 import java.util.ArrayList;
 
 public class Player implements Playable{
-    private ArrayList<Card> deck;
+    private final ArrayList<Card> deck;
     private String name;
     private int score;
 

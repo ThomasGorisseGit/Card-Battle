@@ -6,7 +6,6 @@ import java.util.ArrayList;
 
 public interface IView {
     void displayNextState();
-    void displayStartGame();
     void displayGreetings();
     void displayPlayerToPlay(String playerName);
     void displayPlayerCards(ArrayList<Card> cards);
